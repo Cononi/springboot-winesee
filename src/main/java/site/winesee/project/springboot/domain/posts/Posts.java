@@ -57,4 +57,9 @@ public class Posts {
         this.content = content;
         this.auther = auther;
     }
+
+    public void update(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
 }

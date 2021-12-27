@@ -1,10 +1,10 @@
 package site.winesee.project.springboot.web;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import site.winesee.project.springboot.service.posts.PostsService;
+import site.winesee.project.springboot.web.dto.PostsUpdateRequestDto;
+import site.winesee.project.springboot.web.dto.PostsResponseDto;
 import site.winesee.project.springboot.web.dto.PostsSaveRequestDto;
 
 /*
@@ -22,5 +22,15 @@ public class PostsApiController {
     // @RequestBody json 형식으로 받음.
     public Long save(@RequestBody PostsSaveRequestDto requestDto) {
         return  postsService.save(requestDto);
+    }
+
+    @PutMapping("/api/v1/posts/{id}")
+    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto) {
+        return  postsService.update(id, requestDto);
+    }
+
+    @GetMapping("/api/v1/posts/{id}")
+    public PostsResponseDto findById(@PathVariable Long id){
+        return  postsService.findById(id);
     }
 }
