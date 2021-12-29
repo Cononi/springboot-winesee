@@ -3,6 +3,7 @@ package site.winesee.project.springboot.domain.posts;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.winesee.project.springboot.domain.BaseTimeEntity;
 
 import javax.persistence.*;
 
@@ -28,8 +29,7 @@ PK 생성규칙을 나타냅니다.
 문자열 경우 VARCHAR(255)가 기본값인데, 사이즈를 500으로 늘리고 싶거나
 타입을 TEXT로 변경하고 싶거나 등의 경우에 사용됩니다.
  */
-public class Posts {
-
+public class Posts extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

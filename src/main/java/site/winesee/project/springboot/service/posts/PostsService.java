@@ -5,11 +5,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.winesee.project.springboot.domain.posts.Posts;
 import site.winesee.project.springboot.domain.posts.PostsRepository;
+import site.winesee.project.springboot.web.dto.PostsListResponseDto;
 import site.winesee.project.springboot.web.dto.PostsUpdateRequestDto;
 import site.winesee.project.springboot.web.dto.PostsResponseDto;
 import site.winesee.project.springboot.web.dto.PostsSaveRequestDto;
 
-// final이 선언된 모든 필드를 인자갑스로 하는 생성자.
+import java.util.List;
+import java.util.stream.Collectors;
+
+// final이 선언된 모든 필드를 인자값으로 하는 생성자.
 @RequiredArgsConstructor
 @Service
 public class PostsService {
@@ -41,5 +45,21 @@ public class PostsService {
     public PostsResponseDto findById (Long id) {
         Posts entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
         return new PostsResponseDto(entity);
+    }
+
+
+    // 트랜잭션 어노테이션, readOnly = true를 주면 트랙잭션 범위는 유지하되, 조회 기능만 남겨두어 조회 속도가 개선된다.
+    // 그러므로 등록, 수정, 삭제 기능이 전혀 없는 서비스 메소드에서 사용하는 것을 추천
+    @Transactional(readOnly = true)
+    public List<PostsListResponseDto> findAllDesc() {
+        return  postsRepository.findAllDesc().stream()
+                .map(PostsListResponseDto::new)
+                .collect(Collectors.toList());
+
+        /*
+        .map(PostsListResponseDto::new) == .map(posts -> PostsListResponseDto(posts))
+        postsRepositroy 결과로 넘어온 Posts의 Stream을 map을 통해 PostListReponseDto 변환 -> List로 변환하는 메소드 입니다.
+        - 람다식 관련 -
+         */
     }
 }

@@ -9,10 +9,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import site.winesee.project.springboot.domain.posts.Posts;
 import site.winesee.project.springboot.domain.posts.PostsRepository;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
@@ -55,9 +56,31 @@ public class PostsRepositoryTest {
 
         // then
         Posts posts = postsList.get(0);
-        assertThat(posts.getTitle(),is(equalTo(title)));
-        assertThat(posts.getContent(),is(equalTo(content)));
+        assertThat(posts.getTitle().equals(title));
+        assertThat(posts.getContent().equals(content));
     }
 
+    @Test
+    public void BaseTimeEntity_add() {
+
+        // 데이터 입력
+        LocalDateTime now = LocalDateTime.of(2021,12,29,0,0,0);
+        postsRepository.save(Posts.builder()
+                .title("title")
+                .content("content")
+                .auther("author")
+                .build());
+        
+        // 데이터 전부 가져오기
+        List<Posts> postsList = postsRepository.findAll();
+
+        // 첫번째 데이터 가져오기
+        Posts posts = postsList.get(0);
+        System.out.println(">>>>>>>>>> createDate=" + posts.getCreateDate());
+        System.out.println(">>>>>>>>>> modifiedDate=" + posts.getModifieDate());
+
+        assertThat(posts.getCreateDate()).isAfter(now);
+        assertThat(posts.getModifieDate()).isAfter(now);
+    }
 
 }
