@@ -62,4 +62,23 @@ public class PostsService {
         - 람다식 관련 -
          */
     }
+
+    // 선언적 트랜잭션, 트랜잭션 기능이 포함된 프록시 객체가 생성되어 자동으로 commit혹은 rollback을 진행해준다.
+    // 트랜잭션이란 데이터베이스의 상태를 변경하는 작업 또는 한번에 수행되어야 하는 연산들을 의미한다.
+    // begin, commit을 자동으로 수행, 예외 발생시 rollback 처리를 자동으로 수행해준다.
+    /*
+    트랜잭션은 4가지 성질을 가진다.
+    원자성 - 한 트랜잭션 내에서 실행한 작업들은 하나의 단위로 처리한다. 모두 성공 또는 모두 실패 둘중하나.
+    일관성 - 트랜잭션은 일관성 있는 데이타베이스 상태를 유지한다.
+    격리성 - 동시에 실행되는 트랜잭션들이 서로 영향을 미치지 않도록 격리해야한다.
+    영속성 - 트랜잭션을 성공적으로 마치면 결과가 항상 저장되어야 한다.
+     */
+    @Transactional
+    public void delete(Long id) {
+        Posts posts = postsRepository.findById(id).orElseThrow(() -> new IllegalStateException("해당 게시글이 없습니다. id=" + id));
+        // JpaRepository에서 이미 delete 메소드를 지원하고 있으니 이를 활용 한다.
+        // 엔티티를 파라미터로 삭제할 수도 있고, deleteById 메소드를 이용하면 id로 삭제할 수도 있다.
+        // 존재하는 Posts인지 확인을 위해 엔티티 조회 후 그대로 삭제합니다.
+        postsRepository.delete(posts);
+    }
 }

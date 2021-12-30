@@ -33,4 +33,21 @@ public class PostsApiController {
     public PostsResponseDto findById(@PathVariable Long id){
         return  postsService.findById(id);
     }
+
+    @DeleteMapping("/api/v1/posts/{id}")
+    public Long delete(@PathVariable Long id) {
+        postsService.delete(id);
+        return id;
+    }
 }
+
+/*
+REST 구성
+자원 resource : URI
+행윈 verb : HTTP Method
+- HTTP Method를 통해 해당 자원에 대한 CRUD Operation을 적용하여 아래와 같이 사용한다.
+Create : 데이터 생성 (POST)
+Read : 데이터 조회 (GET)
+Update : 데이터 수정 (PUT)
+Delete : 데이터 삭제 (DELETE)
+ */

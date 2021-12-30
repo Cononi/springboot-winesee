@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 // JPA의 어노테이션
+// 데이터베이스 집합체
 @Entity
 /*
 실제 DB와 매칭될 클래스이며 Entity 클래스라고도 한다.

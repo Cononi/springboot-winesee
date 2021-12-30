@@ -16,7 +16,7 @@ public class PostsListResponseDto {
     public PostsListResponseDto(Posts entity){
         this.id = entity.getId();
         this.title = entity.getTitle();
-        this.author = entity.getTitle();
+        this.author = entity.getAuther();
         this.modifiedDate = entity.getModifieDate();
     }
 }

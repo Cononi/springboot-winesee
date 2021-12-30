@@ -19,10 +19,7 @@ import site.winesee.project.springboot.web.dto.PostsUpdateRequestDto;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @ExtendWith(SpringExtension.class)
@@ -60,12 +57,12 @@ public class PostsApiControllerTest {
             ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url,requestDto, Long.class);
 
             // then
-            assertThat(responseEntity.getStatusCode(),is(equalTo(HttpStatus.OK)));
-            assertThat(responseEntity.getBody(), greaterThan(0L));
+            assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(responseEntity.getBody()).isGreaterThan(0L);
 
             List<Posts> all = postsRepository.findAll();
-            assertThat(all.get(0).getTitle(),is(equalTo(title)));
-            assertThat(all.get(0).getContent(),is(equalTo(content)));
+            assertThat(all.get(0).getTitle()).isEqualTo(title);
+            assertThat(all.get(0).getContent()).isEqualTo(content);
         }
 
         @Test
@@ -94,11 +91,40 @@ public class PostsApiControllerTest {
             ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Long.class);
 
             //then
-            assertThat(responseEntity.getStatusCode(), is(equalTo(HttpStatus.OK)));
-            assertThat(responseEntity.getBody(),greaterThan(0L));
+            assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(responseEntity.getBody()).isGreaterThan(0L);
 
             List<Posts> all = postsRepository.findAll();
-            assertThat(all.get(0).getTitle(),is(equalTo(expectedTitle)));
-            assertThat(all.get(0).getContent(),is(equalTo(expectedContent)));
+            assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
+            assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
+        }
+
+        @Test
+        public void posts_delete() throws Exception{
+            // given
+            Posts savedPosts = postsRepository.save(Posts.builder()
+                    .title("타이틀")
+                    .content("내용")
+                    .auther("작성자")
+                    .build());
+
+            // 작성자 아이디 저장
+            Long savedPostsId = savedPosts.getId();
+
+            // 연결 주소
+            String url = "http://localhost:" + port + "/api/v1/posts/" + savedPostsId;
+
+            // Entity 불러와 저장
+            HttpEntity<Posts> saveEntity = new HttpEntity<>(savedPosts);
+            // when
+            // 응답할 Entity
+            ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, saveEntity, Long.class);
+
+            // then
+            assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(responseEntity.getBody()).isGreaterThan(0L);
+
+            List<Posts> delete = postsRepository.findAll();
+            assertThat(delete).isEmpty();
         }
 }

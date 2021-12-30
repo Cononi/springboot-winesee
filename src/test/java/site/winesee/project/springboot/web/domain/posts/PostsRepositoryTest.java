@@ -10,8 +10,7 @@ import site.winesee.project.springboot.domain.posts.Posts;
 import site.winesee.project.springboot.domain.posts.PostsRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -56,15 +55,19 @@ public class PostsRepositoryTest {
 
         // then
         Posts posts = postsList.get(0);
-        assertThat(posts.getTitle().equals(title));
-        assertThat(posts.getContent().equals(content));
+        // junit5
+        assertEquals(posts.getTitle(), title);
+        assertEquals(posts.getContent(), content);
+        // AssertJ
+        assertThat(posts.getTitle()).isEqualTo(title);
+        assertThat(posts.getContent()).isEqualTo(content);
     }
 
     @Test
     public void BaseTimeEntity_add() {
 
         // 데이터 입력
-        LocalDateTime now = LocalDateTime.of(2021,12,29,0,0,0);
+        String now = LocalDateTime.of(2021,12,29,0,0,0).toString();
         postsRepository.save(Posts.builder()
                 .title("title")
                 .content("content")
