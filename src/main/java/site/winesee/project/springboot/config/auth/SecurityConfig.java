@@ -25,3 +25,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .userService(customOAuth2UserService);
     }
 }
+
+// 변경사항 없음.
