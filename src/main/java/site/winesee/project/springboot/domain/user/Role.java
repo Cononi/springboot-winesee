@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 // 초기화 되지않은 final 필드나, @NonNull 이 붙은 필드에 대해 생성자를 생성해 줍니다.
+// 열거형 타입 : 요소나 멤버라 불리는 명명된 값의 집합을 이루는 자료형.(열거자 이름들은 대체적으로 상수 역할을 하는 식별자)
 public enum Role {
     GUEST("ROLE_GUEST", "손님"),
     USER("ROLE_USER", "일반 사용자");

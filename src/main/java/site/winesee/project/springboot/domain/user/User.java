@@ -73,6 +73,7 @@ public class User extends BaseTimeEntity { // BaseTimeEntity (BaseTime Auditing 
         this.role = role;
     }
 
+    // 생성자.
     public User update(String name, String picture) {
         this.name = name;
         this.picture = picture;
@@ -80,6 +81,7 @@ public class User extends BaseTimeEntity { // BaseTimeEntity (BaseTime Auditing 
         return this;
     }
 
+    // 권한 키값 반환
     public String getRoleKey() {
         return this.role.getKey();
     }
